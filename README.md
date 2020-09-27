@@ -1,2 +1,2 @@
 # pwinfo
-shows type of pw security a website has
+displays the security level of passwords required by websites
