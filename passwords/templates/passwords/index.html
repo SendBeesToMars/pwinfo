@@ -1,0 +1,13 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+
+<form action="{% url 'passwords:vote'%}" method="get">
+
+    <input type="search" name="search_query" id="option0" value="">
+    <label for="option0">Website</label><br>
+
+    <input type="submit" value="search">
+</form>
+
+<p> Hello :) </p>
