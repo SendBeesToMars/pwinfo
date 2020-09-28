@@ -1,27 +1,15 @@
-<p> Hello :) {{ testing }} {{ options.website }}</p>
 <ul>
-    <li>
-        {{ options.website }}
-    </li>
-    <li>
-        {{ options.capitals }}
-    </li>
-    <li>
-        {{ options.numbers }}
-    </li>
-    <li>
-        {{ options.symbols }}
-    </li>
-    <li>
-        {{ options.min_length }}
-    </li>
-    <li>
-        {{ options.max_length }}
-    </li>
-    <li>
-        {{ options.other_details }}
-    </li>
-    <li>
-        {{ options.votes }}
-    </li>
+
+    <h1>
+        {{ name }}
+    </h1>
+    
+    {% for instance in options %}
+        {% for key, value in instance.fields.items %}
+            <li> {{ key }} : {{ value }}</li>
+        {% endfor %}
+    {% endfor %}
+
+    
+
 </ul>

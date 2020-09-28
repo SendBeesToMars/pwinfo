@@ -9,7 +9,7 @@ class Website(models.Model):
         return self.website_name
     
 class Option(models.Model):
-    website = models.ForeignKey(Website, on_delete=models.CASCADE)
+    website_id = models.ForeignKey(Website, on_delete=models.CASCADE)
     capitals = models.BooleanField(default=False)
     numbers = models.BooleanField(default=False)
     symbols = models.BooleanField(default=False)

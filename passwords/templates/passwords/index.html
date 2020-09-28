@@ -8,6 +8,13 @@
     <label for="option0">Website</label><br>
 
     <input type="submit" value="search">
+    {% if error_message %}
+    <p>
+        {{ error_message }} <br>
+        {{ test }}
+    </p>
+    {% endif %}
+
 </form>
 
 <p> Hello :) </p>
