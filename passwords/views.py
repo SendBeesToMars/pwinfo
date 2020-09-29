@@ -1,4 +1,8 @@
+from datetime import date
+from django.http import request
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
+from django.utils import timezone
 
 # Create your views here.
 from django.shortcuts import get_object_or_404, render
@@ -16,15 +20,14 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         return "IndexView"
     
-
-class SearchView(generic.ListView):
+class ConfigView(generic.ListView):
     model = Website
-    template_name = 'passwords/search.html'
-    context_object_name = 'testing'
+    template_name = 'passwords/config.html'
+    context_object_name = 'name'
     
     def get_queryset(self):
         # return "what arm thing homie?"
-        return "SearchView"
+        return self.request.GET.get("search_query", "")
 
 class ResultView(generic.ListView):
     model = Website
@@ -34,6 +37,38 @@ class ResultView(generic.ListView):
     def get_queryset(self):
         # return "what arm thing homie?"
         return "ResultView"
+    
+def configure(request):
+    print("@@@@@@@@@@@")
+    print(request.POST)
+    print(request.POST["min_len"])
+    print("@@@@@@@@@@@")
+    name = request.POST["website"]
+    try:
+        website = Website(website_name=name, date_added=timezone.now())
+        option = Option(website_id=website, 
+                        capitals=request.POST.get("capitals", False) == "on",
+                        numbers=request.POST.get("numbers", False) == "on",
+                        symbols=request.POST.get("symbols", False) == "on",
+                        min_len=int(request.POST["min_len"]),
+                        max_len=int(request.POST["max_len"]),
+                        other_details=request.POST["other_details"],
+                        votes=request.POST.get("votes", 0),)
+    except:
+        return render(request, reverse("passwords:config"), {
+            'name': name,
+            'error_message': "idk man somethings wrong",
+        })
+    else:
+        website.save()
+        option.save()
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        # return HttpResponseRedirect(reverse('polls:index'))
+        return render(request, 'passwords/index.html', {
+            "name":name,
+        })
 
 def vote(request):
     name = request.GET.get("search_query", "")
@@ -44,9 +79,9 @@ def vote(request):
     except:
         return render(request, 'passwords/index.html', {
             'error_message': "website not found",
+            "name": name,
         })
     else:
-        # return HttpResponseRedirect(reverse('passwords:result'))
         return render(request, 'passwords/result.html', {
             'options': options,
             "name":name,

@@ -8,13 +8,21 @@
     <label for="option0">Website</label><br>
 
     <input type="submit" value="search">
-    {% if error_message %}
-    <p>
-        {{ error_message }} <br>
-        {{ test }}
-    </p>
-    {% endif %}
 
 </form>
 
-<p> Hello :) </p>
+{% if error_message %}
+    <p>
+        {{ error_message }} {{ name }}
+    </p>
+    
+    <form action="{% url 'passwords:config'%}" method="get">
+
+        <input name="search_query" value={{ name }}>
+
+        <input type="submit" value="configure">
+
+    </form>
+{% endif %}
+
+<p> Hello :)  {{ name }}</p>
