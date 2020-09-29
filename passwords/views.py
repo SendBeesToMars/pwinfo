@@ -39,10 +39,6 @@ class ResultView(generic.ListView):
         return "ResultView"
     
 def configure(request):
-    print("@@@@@@@@@@@")
-    print(request.POST)
-    print(request.POST["min_len"])
-    print("@@@@@@@@@@@")
     name = request.POST["website"]
     try:
         website = Website(website_name=name, date_added=timezone.now())
