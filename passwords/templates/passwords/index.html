@@ -1,28 +1,37 @@
 {% load static %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+<!doctype html>
+<html lang="en">
 
-<form action="{% url 'passwords:vote'%}" method="get">
+<head>
+    <meta charset="utf-8">
+    <title>{{ name }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'passwords/style.css' %}">
+</head>
 
-    <input type="search" name="search_query" id="option0" value="">
-    <label for="option0">Website</label><br>
+<main>
+    <form action="{% url 'passwords:vote'%}" method="get">
 
-    <input type="submit" value="search">
+        <input type="search" name="search_query" id="option0" value="">
+        <label for="option0">Website</label><br>
 
-</form>
-
-{% if error_message %}
-    <p>
-        {{ error_message }} {{ name }}
-    </p>
-    
-    <form action="{% url 'passwords:config'%}" method="get">
-
-        <input name="search_query" value={{ name }}>
-
-        <input type="submit" value="configure">
+        <input type="submit" value="search">
 
     </form>
-{% endif %}
 
-<p> Hello :)  {{ name }}</p>
+    {% if error_message %}
+        <p>
+            {{ error_message }} {{ name }}
+        </p>
+        
+        <form action="{% url 'passwords:config'%}" method="get">
+
+            <input name="search_query" value={{ name }}>
+
+            <input type="submit" value="configure">
+
+        </form>
+    {% endif %}
+
+</main>

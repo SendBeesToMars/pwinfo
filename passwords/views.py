@@ -58,11 +58,12 @@ def configure(request):
     else:
         website.save()
         option.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
-        # return HttpResponseRedirect(reverse('polls:index'))
-        return render(request, 'passwords/index.html', {
+        options = serializers.serialize( "python", Option.objects.filter(website_id=Website.objects.get(website_name=name)))
+        # return render(request, 'passwords/index.html', {
+        #     "name":name,
+        # })
+        return render(request, 'passwords/result.html', {
+            'options': options,
             "name":name,
         })
 
