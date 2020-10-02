@@ -1,0 +1,19 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{{ name }} {% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'passwords/style.css' %}">
+</head>
+
+<main>
+    {% block main %}
+        <pre>
+            ohi :)
+        </pre>
+    {% endblock %}
+</main>

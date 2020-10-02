@@ -1,27 +1,23 @@
-{% load static %}
+{% extends "passwords/base.html" %}
 
-<!doctype html>
-<html lang="en">
+{% block title %} {{ name }} {% endblock%}
 
-<head>
-    <meta charset="utf-8">
-    <title>{{ name }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="{% static 'passwords/style.css' %}">
-</head>
+{% block main %}
 
-<main>
-    <ul>
+    <h1>
+        {% comment %} <a href="{% url 'passwords:index'%}">{{ name }}</a> {% endcomment %}
+        <a target="_blank" rel="noopener noreferrer" href="https://www.{{ name }}">{{ name }}</a>
+    </h1>
 
-        <h1>
-            {{ name }}
-        </h1>
-        
+    <table>        
         {% for instance in options %}
-            {% for key, value in instance.fields.items %}
-                <li> {{ key }} : {{ value }}</li>
-            {% endfor %}
+                {% for key, value in instance.fields.items %}
+                    <tr>
+                        <th>{{ key }}</th>
+                        <td> {{ value }}</td>
+                    </tr>
+                {% endfor %}
         {% endfor %}
-        
-    </ul>
-</main>
+    </table>
+
+{% endblock %}

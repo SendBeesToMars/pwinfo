@@ -4,14 +4,12 @@ from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.utils import timezone
 
-# Create your views here.
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.core import serializers
 
 from .models import Option, Website
-
 
 class IndexView(generic.ListView):
     model = Website
@@ -26,7 +24,6 @@ class ConfigView(generic.ListView):
     context_object_name = 'name'
     
     def get_queryset(self):
-        # return "what arm thing homie?"
         return self.request.GET.get("search_query", "")
 
 class ResultView(generic.ListView):
@@ -35,7 +32,6 @@ class ResultView(generic.ListView):
     context_object_name = 'testing'
     
     def get_queryset(self):
-        # return "what arm thing homie?"
         return "ResultView"
     
 def configure(request):
@@ -59,9 +55,6 @@ def configure(request):
         website.save()
         option.save()
         options = serializers.serialize( "python", Option.objects.filter(website_id=Website.objects.get(website_name=name)))
-        # return render(request, 'passwords/index.html', {
-        #     "name":name,
-        # })
         return render(request, 'passwords/result.html', {
             'options': options,
             "name":name,
@@ -70,8 +63,6 @@ def configure(request):
 def vote(request):
     name = request.GET.get("search_query", "")
     try:
-        # options = get_object_or_404(Option ,website=Website.objects.get(website_name=name))
-        # gets key value pair for options model using the get requests website name
         options = serializers.serialize( "python", Option.objects.filter(website_id=Website.objects.get(website_name=name)))
     except:
         return render(request, 'passwords/index.html', {
