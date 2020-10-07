@@ -8,6 +8,8 @@
     </h1>
     
     <form action="{% url 'passwords:result' %}" method="post">
+    
+        {% csrf_token %}
 
         <input type="hidden" name="website" value={{ name }}>
 

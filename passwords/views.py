@@ -38,35 +38,26 @@ def config_view(request):
     
 def result(request):
     name = request.POST.get("website", "error")
-    try:
-        # if object already exists in database, display that object, else create new one
-        if Website.objects.filter(website_name=name).exists():
-            website = get_object_or_404(Website, website_name=name)
-            option = get_object_or_404(Option, website_id=website)
-        else:
-            website = Website(website_name=name, date_added=timezone.now())
-            option = Option(website_id=website, 
-                            capitals=request.POST.get("capitals", False) == "on",
-                            numbers=request.POST.get("numbers", False) == "on",
-                            symbols=request.POST.get("symbols", False) == "on",
-                            min_len=int(request.POST.get("min_len", 0)),
-                            max_len=int(request.POST.get("max_len", 0)),
-                            other_details=request.POST.get("other_details", ""),
-                            votes=request.POST.get("votes", 0),)
-            website.save()
-            option.save()
-    except:
-        return render(request, reverse("passwords:config"), {
-            "name": name,
-            "error_message": "idk man somethings wrong",
-        })
-    else:
-        # creates key value pair for options model to be displayed 
-        options = serializers.serialize( "python", Option.objects.filter(website_id=get_object_or_404(Website, website_name=name)))
-        return render(request, "passwords/result.html", {
-            "options": options,
-            "name":name,
-        })
+    # if object already exists in database, display that object, else create new one
+    if not Website.objects.filter(website_name=name).exists():
+        website = Website(website_name=name, date_added=timezone.now())
+        option = Option(website_id=website, 
+                        capitals=request.POST.get("capitals", False) == "on",
+                        numbers=request.POST.get("numbers", False) == "on",
+                        symbols=request.POST.get("symbols", False) == "on",
+                        min_len=int(request.POST.get("min_len", 0)),
+                        max_len=int(request.POST.get("max_len", 0)),
+                        other_details=request.POST.get("other_details", ""),
+                        votes=request.POST.get("votes", 0),)
+        website.save()
+        option.save()
+        
+    # creates key value pair for options model to be displayed 
+    options = serializers.serialize( "python", Option.objects.filter(website_id=get_object_or_404(Website, website_name=name)))
+    return render(request, "passwords/result.html", {
+        "options": options,
+        "name":name,
+    })
 
 def vote(request):
     name = request.GET.get("search_query", "")
