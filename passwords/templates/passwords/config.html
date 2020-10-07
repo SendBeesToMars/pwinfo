@@ -7,8 +7,7 @@
         <a target="_blank" rel="noopener noreferrer" href="https://www.{{ name }}">{{ name }}</a>
     </h1>
     
-    <form action="{% url 'passwords:configure' %}" method="post">
-        {% csrf_token %}
+    <form action="{% url 'passwords:result' %}" method="post">
 
         <input type="hidden" name="website" value={{ name }}>
 
@@ -29,7 +28,7 @@
 
         <input type="text" name="other_details" id="other_details" maxlength="500">
         <label for="other">Other details</label><br>
-
+        
         <input type="submit" value="submit">
     </form>
 {% endblock %}
